@@ -45,11 +45,14 @@ For further ticketing service api details you can open swagger
 link: http://localhost:2022/swagger-ui.html#/
 ### Test cases:
 For Unit testing I used junit with mockito and test cases of ticketing service is written and you check in test package.
-How to run Services:
+
+### How to run Services:
 Both services have been dockerized by Dockerfile build file and all you need to do is just run docker-compose.yml file. You can find compose file in the zip folder.
+
 (note: before running docker-compose don’t forget to set local time zone just need to set a property like TZ:{your current time zone} e.g Asia/Dubai)
-Command For build services: just need to run first time only docker-compose build
+
 ```cmd 
+Command For  build services: just need to run first time only docker-compose build
 For run: docker-compose up –d
 For down: docker-compose stop
 ```
