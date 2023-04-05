@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "cc1eed6a-1d21-4cdd-8934-9d19ed9a4868",
+		"name": "delivery request",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "delivery request",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authId}}",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"customerType\": \"NEW\",\n    \"deliveryExpectedHour\":11,\n    \"deliveryExpectedMins\":55,\n    \"timeToReachDestinationHour\":10,\n    \"timeToReachDestinationMins\":50,\n    \"meanTimeForFood\":45\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:2021/delivery/api/v1/add",
+					"host": [
+						"localhost"
+					],
+					"port": "2021",
+					"path": [
+						"delivery",
+						"api",
+						"v1",
+						"add"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

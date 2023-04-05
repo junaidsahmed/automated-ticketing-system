@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: ${active_profile}
+
+app:
+  auth:
+    jwtSecret: callsignSecretKey
+    jwtExpirationMs: 8640000

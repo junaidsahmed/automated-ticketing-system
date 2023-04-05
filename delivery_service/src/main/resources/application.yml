@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: ${active_profile}
+
+scheduler:
+  config:
+    deliveryComplaintsInitialDelay: 30000
+    deliveryComplaintsDelay: 60000 #set to run after 5 minutes

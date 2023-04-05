@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "e5757af0-242a-46bd-9c03-d98ed4c9f091",
+		"name": "automated ticketing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get unresolved tickets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{authId}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{ticket_service}}/tickets/all?pageNo=0&pageSize10",
+					"host": [
+						"{{ticket_service}}"
+					],
+					"path": [
+						"tickets",
+						"all"
+					],
+					"query": [
+						{
+							"key": "pageNo",
+							"value": "0"
+						},
+						{
+							"key": "pageSize10",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": {
+				"success": true,
+				"status": "OK",
+				"data": [
+					{
+						"ticketId": 2,
+						"deliverId": 2,
+						"customerType": "VIP",
+						"deliveryStatus": "0",
+						"deliveryRequestTime": "2022-01-17 07:02:27",
+						"expectedDeliveryCompletionTime": "2022-01-17 06:50:00",
+						"estimatedDeliveryCompletionTime": "2022-01-17 07:00:00",
+						"ticketPriority": "SEVERE",
+						"ticketReason": "delivery time has passed and food is not being delivered",
+						"ticketDetails": "",
+						"isTicketResolved": false
+					},
+					{
+						"ticketId": 1,
+						"deliverId": 1,
+						"customerType": "VIP",
+						"deliveryStatus": "0",
+						"deliveryRequestTime": "2022-01-17 07:02:14",
+						"expectedDeliveryCompletionTime": "2022-01-17 07:50:00",
+						"estimatedDeliveryCompletionTime": "2022-01-17 08:00:00",
+						"ticketPriority": "HIGH",
+						"ticketReason": "delivery estimated time is greater then the delivery expected time",
+						"ticketDetails": "",
+						"isTicketResolved": false
+					},
+					{
+						"ticketId": 3,
+						"deliverId": 6,
+						"customerType": "LOYAL",
+						"deliveryStatus": "0",
+						"deliveryRequestTime": "2022-01-17 07:05:29",
+						"expectedDeliveryCompletionTime": "2022-01-17 06:50:00",
+						"estimatedDeliveryCompletionTime": "2022-01-17 06:45:00",
+						"ticketPriority": "SEVERE",
+						"ticketReason": "delivery time has passed and food is not being delivered",
+						"ticketDetails": "",
+						"isTicketResolved": false
+					},
+					{
+						"ticketId": 6,
+						"deliverId": 11,
+						"customerType": "LOYAL",
+						"deliveryStatus": "0",
+						"deliveryRequestTime": "2022-01-17 07:13:21",
+						"expectedDeliveryCompletionTime": "2022-01-17 07:55:00",
+						"estimatedDeliveryCompletionTime": "2022-01-17 08:35:00",
+						"ticketPriority": "HIGH",
+						"ticketReason": "delivery estimated time is greater then the delivery expected time",
+						"ticketDetails": "",
+						"isTicketResolved": false
+					},
+					{
+						"ticketId": 7,
+						"deliverId": 15,
+						"customerType": "LOYAL",
+						"deliveryStatus": "0",
+						"deliveryRequestTime": "2022-01-17 07:19:24",
+						"expectedDeliveryCompletionTime": "2022-01-17 10:35:00",
+						"estimatedDeliveryCompletionTime": "2022-01-17 11:35:00",
+						"ticketPriority": "HIGH",
+						"ticketReason": "delivery estimated time is greater then the delivery expected time",
+						"ticketDetails": "",
+						"isTicketResolved": false
+					},
+					{
+						"ticketId": 4,
+						"deliverId": 7,
+						"customerType": "NEW",
+						"deliveryStatus": "0",
+						"deliveryRequestTime": "2022-01-17 07:05:41",
+						"expectedDeliveryCompletionTime": "2022-01-17 06:50:00",
+						"estimatedDeliveryCompletionTime": "2022-01-17 06:45:00",
+						"ticketPriority": "SEVERE",
+						"ticketReason": "delivery time has passed and food is not being delivered",
+						"ticketDetails": "",
+						"isTicketResolved": false
+					},
+					{
+						"ticketId": 5,
+						"deliverId": 9,
+						"customerType": "NEW",
+						"deliveryStatus": "0",
+						"deliveryRequestTime": "2022-01-17 07:06:11",
+						"expectedDeliveryCompletionTime": "2022-01-17 07:55:00",
+						"estimatedDeliveryCompletionTime": "2022-01-17 07:57:00",
+						"ticketPriority": "LOW",
+						"ticketReason": "delivery estimated time is greater then the delivery expected time",
+						"ticketDetails": "",
+						"isTicketResolved": false
+					}
+				],
+				"dateTime": "2022-01-17 07:20:26"
+			}
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const authreq = pm.response.json();",
+							"",
+							"pm.environment.set('authId', authreq.token);",
+							"//console.log('authId', pm.environment.get('authId'));",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"email\":\"jshakeel@gmail.com\",\n    \"pwd\":\"12345\"\n    \n\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ticket_service}}/auth/login",
+					"host": [
+						"{{ticket_service}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\":\"junaid\",\n    \"pwd\":\"12345\",\n    \"email\":\"jshakeel@gmail.com\"\n\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{ticket_service}}/auth/signup",
+					"host": [
+						"{{ticket_service}}"
+					],
+					"path": [
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

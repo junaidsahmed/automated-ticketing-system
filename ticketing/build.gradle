@@ -1,0 +1,57 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.2'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'com.callsign.service'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation group: 'com.auth0', name: 'java-jwt', version: '3.18.2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation group: 'com.jayway.jsonpath', name: 'json-path', version: '2.6.0'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'mysql:mysql-connector-java'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.1'
+	testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.1.0'
+
+
+
+
+
+}
+
+test {
+	logger.info("Setting properties for test")
+	Map<String,String> envprop= new HashMap<>()
+	envprop.put("db_port","3306");envprop.put("db_username","root")
+	envprop.put("db_pwd","");envprop.put("db_schema","callsign_db");envprop.put("db_url","localhost")
+	envprop.put("kafka_url","localhost");envprop.put("kafka_port","9092")
+	envprop.put("kafka_topic","delivery.complaint.tickets")
+	envprop.put("kafka_consumer_group","automated_ticketing_consumer_group")
+	envprop.put("service_port","2022")
+	envprop.put("active_profile","dev");envprop.put("logging_level","debug")
+	environment(envprop)
+	useJUnitPlatform()
+}

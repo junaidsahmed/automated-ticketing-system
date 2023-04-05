@@ -1,0 +1,86 @@
+# written by Junaid Shakeel 
+version: '3.8'
+x-timezone: &timezone
+    TZ: Asia/Karachi #Asia/Dubai
+x-commonenv: &commonenv
+    kafka_url: kafka
+    kafka_port: 9092
+    kafka_topic: delivery.complaint.tickets
+    db_url: mysql
+    db_port: 3306
+    db_username: root
+    db_pwd: mypwd
+    db_schema: callsign_db
+    <<: *timezone
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:6.1.0
+    container_name: zookeeper
+    environment:
+      <<: *timezone
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+  
+  kafka:
+    image: confluentinc/cp-kafka:6.1.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      <<: *timezone
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  delivery-service:
+    build:
+      context: ./delivery_service
+    image: delivery-service:latest
+    container_name: delivery-service
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - 2021:2021
+    environment:
+     <<: *commonenv 
+     service_port: 2021
+     active_profile: prod
+     logging_level: info
+  ticketing-service:
+    build:
+      context: ./ticketing
+    image: ticketing-service:latest
+    container_name: ticketing-service
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - 2022:2022
+    environment:
+       <<: *commonenv
+       service_port: 2022
+       active_profile: prod
+       logging_level: info
+       kafka_consumer_group: automated_ticketing_consumer_group
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    volumes:
+      - ./mydb/mysql_db_data:/var/lib/mysql
+    restart: always
+    ports:
+      - 33306:3306
+    environment:
+      <<: *timezone
+      MYSQL_ROOT_PASSWORD: mypwd
+      MYSQL_DATABASE: callsign_db
+      MYSQL_USER: my_db
+      MYSQL_PASSWORD: mypwd
