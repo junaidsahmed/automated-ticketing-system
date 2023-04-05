@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("callsign/api/v1/tickets")
+@RequestMapping("/api/v1/tickets")
 public class TicketController {
 
    private  TicketHandlerService deliveryComplaintTicketHandlerService;
